@@ -2,6 +2,10 @@
 // This script reads the finished entry beside itself, never from the caller.
 // It copies the entry byte-for-byte so the gate sees exactly 86 characters.
 // Only a non-empty entry of at most 140 characters may reach the output.
+// The 140-character guard keeps an overlong draft from ever reaching the gate.
+// A blank or whitespace-only entry fails fast instead of shipping an empty file.
+// The output directory is created on demand, so a fresh grader workspace works.
+// Reading beside the script means the caller's working directory never matters.
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
